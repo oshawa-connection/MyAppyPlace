@@ -1,0 +1,28 @@
+{
+  "include": [
+      "src/**/*",
+  ],
+  "exclude": [
+      "types/",
+      "views/",
+      "node_modules",
+      "**/*.spec.ts",
+      "src/scripts",
+      "tests/"
+  ],
+ "compilerOptions": {
+      "lib": ["es6","dom"],
+     // "types": ["node"],
+     "esModuleInterop": true,
+      "target": "es6",
+      "pretty": true,
+      "module": "commonjs",
+      "outDir": "./dist",
+      "moduleResolution": "node",
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "allowSyntheticDefaultImports": true,
+      "sourceMap": true,
+      "noImplicitAny": true
+ }
+}

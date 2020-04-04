@@ -1,0 +1,31 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script type="text/javascript">
+    window.onload = () => { 
+        document.getElementById("myButton").onclick = function () {
+        location.href = "/newThought";
+    };
+    };
+
+    </script>
+
+</head>
+
+<script type="text/javascript">
+    
+</script>
+<body>
+    <ul>
+        <% thoughts.forEach(function(thought){ %>
+            <h2><%= thought.thoughtText %></h2>
+        <% }); %>
+      </ul>
+      <br>
+      <button id="myButton" class="float-left submit-button" >Home</button>
+
+</body>
+</html>
