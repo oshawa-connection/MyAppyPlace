@@ -31,13 +31,13 @@ export function sequelizeFactory(sequelizeEnvironment = "testing") {
   };
 
   const sequelize = new Sequelize({
-    database: config.database,
-    dialect: config.dialect,
-    username: config.username,
+    database: config.database || process.env.database,
+    dialect: config.dialect || "postgres",
+    username: config.username || process.env.user,
     password: config.password || process.env.dbPassword,
-    host: config.host,
-    port: config.port,
-    logging:loggingOption,
+    host: config.host || process.env.host,
+    port: config.port || "5432",
+    logging:loggingOption ,
     define: {
       schema: config.schema,
       freezeTableName: true,

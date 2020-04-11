@@ -1,8 +1,12 @@
 {
-  "name": "MVCSequelizeTest",
+  "name": "myappyplace",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/src/index.js",
+  "engines": {
+    "node":"10.15.3",
+    "npm":"6.14.2"
+  },
   "scripts": {
     "start": "nodemon dist/src/server/index.js",
     "bundle": "webpack --config ./webpack-front.config --display-error-details",
