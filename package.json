@@ -8,7 +8,7 @@
     "npm":"6.14.2"
   },
   "scripts": {
-    "start": "nodemon dist/src/server/index.js",
+    "start": "node dist/src/server/index.js",
     "bundle": "webpack --config ./webpack-front.config --display-error-details",
     "build": "tsc --build"
   },
