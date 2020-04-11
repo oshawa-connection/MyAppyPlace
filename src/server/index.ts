@@ -128,6 +128,7 @@ server.get('/unauthorised',(req:Request,res:Response) => {
 })
 
 server.get("/",async (req:Request,res:Response) => {
+  console.log("recieved request")
   res
     .redirect("/viewThoughts")
 })
