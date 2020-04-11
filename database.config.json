@@ -1,0 +1,23 @@
+{
+    "development": {
+      "username": "james",
+      "password": "H",
+      "database": "happythoughtsdb",
+      "host": "localhost",
+      "dialect": "postgres",
+      "port":"5432",
+      "logging":true
+    },
+    "production": {
+    },
+    "testing": {
+      "username": "james",
+      "password": "H",
+      "database": "happythoughtstestdb",
+      "host": "localhost",
+      "port": "5432",
+      "dialect": "postgres",
+      "logging":false
+    }
+  }
+  
