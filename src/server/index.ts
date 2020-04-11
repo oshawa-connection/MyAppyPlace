@@ -1,21 +1,32 @@
 import express from "express"
 const helmet = require('helmet');
 import { Request, Response, NextFunction } from "express";
+
 import { sequelizeFactory } from "./database";
 import { happyThought, IhappyThought } from "../models/happyThought.model"
-
-
+import { happyUser, IhappyUser } from "../models/happyUser.model";
 export const sequelize = sequelizeFactory(process.env.NODE_ENV);
-sequelize.sync({force:false});
 
 const bodyParser = require('body-parser');
+
+
+const hostname = "localhost"
 const port = 3002;
+
+
+
+const passport = require('passport');
+const passportJWT = require("passport-jwt");
+const JWTStrategy   = passportJWT.Strategy;
+const ExtractJWT = passportJWT.ExtractJwt;
+import * as jwt from 'jsonwebtoken';
+
+sequelize.sync({force:false});
 export const server = express();
 
 server.use(helmet())
 
-const hostname = "localhost"
-console.log(__dirname +"/../views/")
+
 
 
 server.use("/views",express.static(__dirname +"/../views/"));
@@ -37,7 +48,84 @@ server.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Credentials', "false");
     // Pass to next layer of middleware
     next();
-  });
+});
+
+
+server.use(passport.initialize());
+server.use(passport.session());
+
+passport.serializeUser(function(user:any, done:any) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user :any, done:any) {
+  done(null, user);
+});
+
+passport.use(new JWTStrategy({
+  jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+  secretOrKey   : 'your_jwt_secret'
+},
+  function (jwtPayload :any, cb:any) {
+    console.log(jwtPayload);
+    //find the user in db if needed
+    return happyUser.findByPk(jwtPayload.userID)
+        .then(user => {
+            return cb(null, user);
+        })
+        .catch(err => {
+            return cb(err);
+        });
+  }
+));
+
+server.get("/login", (req:Request,res:Response)=>{
+  res
+          .render(__dirname + '/../../../views/login.ejs');  
+})
+
+server.post('/login', function (req :any, res, next) {
+
+  passport.authenticate('jwt', {session: false}, (err:any, user:any, info:any) => {
+      // console.log(err);
+      // console.log(user);
+      if (err || !user) {
+        console.log('throwing an error')
+        console.log(err)
+        res.status(500).send("err")  
+        // res.json({
+        //       message: info ? info.message : 'Login failed',
+        //       user   : user
+        //   }).send()
+      }
+      else {
+        req.login(user, {session: false}, (err:any) => {
+          if (err) {
+              res.send(err);
+          }
+          else {
+            const token = jwt.sign({EmployeeID:user['EmployeeID']}, process.env.jwtSecretKey,{expiresIn: "730hr"});
+
+            res.json(token).send();
+          }
+        });
+      }
+
+
+  })
+  (req, res);
+
+});
+
+server.get('/testAuth/',passport.authenticate('jwt',{ failureRedirect: '/unauthorised'}), (req:Request, res:Response, next) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain')
+  res.end('Hello, Ciao. Gruezi wohl. Du bist an der root der API server...');
+});
+
+server.get('/unauthorised',(req:Request,res:Response) => {
+  res.status(401).send("Incorrect login info.")
+})
 
 server.get("/",async (req:Request,res:Response) => {
   res

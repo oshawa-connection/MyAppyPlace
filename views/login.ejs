@@ -1,0 +1,68 @@
+  
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" type = "text/css" href="/style.css">
+        <link rel="shortcut icon" type="image/png" href="/views/images/favicon.ico"/>
+        <title>Task Manager Login</title>
+        
+        <script type="text/javascript">
+            async function processForm(e) {
+                
+                e.preventDefault()
+                
+                let bodyData ={
+                    "userName":document.getElementById("username").value,
+                    "password":document.getElementById("password").value
+                };
+
+                console.log("hello world")
+                let response  = await fetch("/login",{
+                    method:"POST",
+                    headers: {
+                        'Content-Type':"application/json"
+                    },
+                    redirect: 'follow',
+                    body: JSON.stringify(bodyData)
+                })
+                console.log('got response')
+                console.log(response)
+            };
+
+
+            window.onload = () => { 
+
+                const form = document.getElementById("loginForm")
+                form.addEventListener("submit",processForm)
+
+
+            };
+
+
+        </script>
+
+
+    </head>
+    <body>
+        <div class="mainContainer">
+            <h1>Manager Login</h1>
+            
+            <hr>
+                <form action="/login" method='post' id="loginForm">
+                    <label for="username">Your Username</label>
+                    <br>
+                    <input id="username" name="username" type="text" required='required'></input>
+    
+                    <br>
+                    <label for="password">Your password</label>
+                    <br>
+                    <input id="password" name="password" type="password" required='required'></input>
+    
+                    <br>
+                    <button type="submit">Login</button>
+                </form>
+        </div>
+    </body>
+    </html>
