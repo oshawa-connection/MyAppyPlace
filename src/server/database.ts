@@ -34,7 +34,7 @@ export function sequelizeFactory(sequelizeEnvironment = "testing") {
     database: config.database || process.env.database,
     dialect: config.dialect || "postgres",
     username: config.username || process.env.user,
-    password: config.password || process.env.dbPassword,
+    password: config.password || process.env.password,
     host: config.host || process.env.host,
     port: config.port || "5432",
     logging:loggingOption ,
