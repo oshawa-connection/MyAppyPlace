@@ -23,6 +23,8 @@ server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 server.set('view engine', 'ejs');
 
+server.use(express.static('static'))
+
 server.use(function(req, res, next) {
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -44,11 +46,12 @@ server.get("/",async (req:Request,res:Response) => {
 
 server.get("/viewThoughts", async (req:Request,res:Response) => {
   
-  let thoughts = await happyThought.findAll()
+  let thoughts = await happyThought.findAll({limit:10,order:[["createdAt","DESC"]]})
   let rawThoughtData = thoughts.map( (d:any) => {return d.dataValues})
   console.log(rawThoughtData)
   res
-    .render(__dirname + '/../../../views/displayThoughts.ejs',{thoughts:rawThoughtData});   
+    .render(__dirname + '/../../../views/displayThoughts.ejs',
+        {thoughts:rawThoughtData});   
 })
 
 server.get("/newThought",async (req:Request,res:Response) => {

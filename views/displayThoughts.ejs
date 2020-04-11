@@ -2,16 +2,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <script type="text/javascript">
+    <title>AppyThoughts</title>
+    <link rel="stylesheet" type = "text/css" href="/style.css">
+    <!-- <script type="text/javascript">
     window.onload = () => { 
         document.getElementById("myButton").onclick = function () {
         location.href = "/newThought";
+
+        document.querySelectorAll("card")
     };
     };
 
-    </script>
+    </script> -->
 
 </head>
 
@@ -19,13 +21,42 @@
     
 </script>
 <body>
-    <ul>
-        <% thoughts.forEach(function(thought){ %>
-            <h2><%= thought.thoughtText %></h2>
-        <% }); %>
-      </ul>
-      <br>
-      <button id="myButton" class="float-left submit-button" >Home</button>
 
+    <div id='fixed-profilePicture'>
+
+        <img src="/foxIcon.png" style="width:50px;height:50px">  James Fleming  <button>Logout</button>
+        <br>
+    
+    
+    </div>
+
+    <div class="mainContainer">
+        <h1> What made you happy? 🙂</h1>
+        
+        <form action="/newThought" method="POST">
+            <textarea placeholder="What's on your mind?" class="verticalTextArea inputClass" minlength='10' maxlength="255" required="required" name="thoughtText" type="text"></textarea>        
+            
+            <br>   
+            <input minlength='3' maxlength="255" required="required" name="postedBy" type="text"></input>     
+            <button type="submit" id="myButton" class="float-left submit-button" >New Thought</button>
+        </form>
+
+        
+        <ul>
+            <% thoughts.forEach(function(thought){ %>
+                <div class="card" id=" <%= thought.thoughtID %>  ">
+                    <div class="cardContainer">
+                        <h2><%= thought.thoughtText %></h2>
+                        <h6>Posted by: <%=thought.postedBy%> on <%= thought.createdAt.toLocaleString('en-GB',{ timeZone: 'UTC'}) %></h6>
+                    </div>
+
+                </div>
+                <br>
+                
+            <% }); %>
+        </ul>
+        <br>
+        
+    </div>
 </body>
 </html>

@@ -25,7 +25,7 @@ import { Sequelize, GEOMETRY } from 'sequelize/types';
 import { modelInterface, geoJSON } from '../../types/types'
 import { Col } from 'sequelize/types/lib/utils';
 const uuidv1 = require('uuid/v1');
-var bcrypt = require('bcrypt');
+
 
 export type IhappyThought = modelInterface<happyThought>;
 
@@ -58,7 +58,7 @@ export class happyThought extends Model<happyThought> {
     postedBy: string;
 
     @AllowNull(false)
-    @Length({max:255,min:0})
+    @Length({max:255,min:10})
     @Column
     thoughtText : string;
 

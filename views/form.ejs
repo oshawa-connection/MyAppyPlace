@@ -2,19 +2,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type = "text/css" href="/style.css">
+
     <title>New Happy Thought</title>
 </head>
 <body>
-    <form action="/newThought" method="POST">
-        <label for="thoughtText">Your Happy Thought:</label>
-        <input name="thoughtText" type="text"></input>        
-        
-        <br>
-        <label for="postedBy">Who are you?</label>
-        <input name="postedBy" type="text"></input>  
-        <br>      
-        <button type="submit">Submit</button>
-    </form>
-
+    <div class="mainContainer">
+        <form action="/newThought" method="POST">
+            <label for="thoughtText">Your Happy Thought:</label>
+            <input minlength='10' maxlength="255" required="required" name="thoughtText" type="text"></input>        
+            
+            <br>
+            <label for="postedBy">Who are you?</label>
+            <input minlength='3' maxlength="255" required="required" name="postedBy" type="text"></input>  
+            <br>      
+            <button type="submit">Submit</button>
+        </form>
+    </div>
 </body>
 </html>
