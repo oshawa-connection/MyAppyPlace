@@ -153,7 +153,7 @@ server.get("/viewThoughts", async (req:Request,res:Response) => {
   
   let thoughts = await happyThought.findAll({limit:10,order:[["createdAt","DESC"]]})
   let rawThoughtData = thoughts.map( (d:any) => {return d.dataValues})
-  console.log(rawThoughtData)
+  
   res
     .render(__dirname + '/../../../views/displayThoughts.ejs',
         {thoughts:rawThoughtData});   
@@ -202,7 +202,9 @@ server.post('/displayResults', async (req:Request,res:Response)=>{
   const searchResults = await sequelize.query(`
   SELECT *
   FROM "happyThought"
-  WHERE _search @@ plainto_tsquery('english', :searchTerm);
+  WHERE _search @@ plainto_tsquery('english', :searchTerm)
+  ORDER BY ts_rank("_search", to_tsquery('english', :searchTerm)) DESC
+  LIMIT 10;
   `, {
   model: happyThought,
   replacements: { searchTerm: req.body.searchTerm },
