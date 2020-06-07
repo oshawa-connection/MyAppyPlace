@@ -62,8 +62,19 @@ passport.deserializeUser(function(user :any, done:any) {
   done(null, user);
 });
 
+var cookieExtractor = function(req : Request) {
+  var token = null;
+  if (req.cookies["loginCookie"]) {
+    token = req.cookies["loginCookie"]
+    return token
+  }
+  else {
+    throw "No cookies sent!"
+  }
+}
+
 passport.use(new JWTStrategy({
-  jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+  jwtFromRequest: cookieExtractor,
   secretOrKey   : 'your_jwt_secret'
 },
   function (jwtPayload :any, cb:any) {
@@ -123,6 +134,11 @@ server.get('/testAuth/',passport.authenticate('jwt',{ failureRedirect: '/unautho
   res.end('Hello, Ciao. Gruezi wohl. Du bist an der root der API server...');
 });
 
+
+server.get("newUser", (req:Request,res:Response) => {
+  res.render(__dirname + '/../../../views/signUp.ejs',)
+})
+
 server.get('/unauthorised',(req:Request,res:Response) => {
   res.status(401).send("Incorrect login info.")
 })
@@ -179,7 +195,23 @@ server.post("/newThought",async (req:Request,res:Response) => {
   
 })
 
+server.post('/displayResults', async (req:Request,res:Response)=>{
+    
+  console.log(`Search term is: ${req.body.searchTerm}`)
+
+  const searchResults = await sequelize.query(`
+  SELECT *
+  FROM "happyThought"
+  WHERE _search @@ plainto_tsquery('english', :searchTerm);
+  `, {
+  model: happyThought,
+  replacements: { searchTerm: req.body.searchTerm },
+  });
+
+  res.render("searchResults.ejs",{searchTerm:req.body.searchTerm,thoughts:searchResults})
+})
+
 server.listen(port, () => {
-    console.log(`Server running!`);
+    console.log(`Server running on port ${port}`);
 });
 

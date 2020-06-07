@@ -2,6 +2,7 @@ var fs = require('fs');
 var path = require('path');
 import { Sequelize } from 'sequelize-typescript';
 import { happyThought } from '../models/happyThought.model';
+import { happyUser } from '../models/happyUser.model'
 
 export function sequelizeFactory(sequelizeEnvironment = "testing") {
   
@@ -54,7 +55,7 @@ export function sequelizeFactory(sequelizeEnvironment = "testing") {
 
   // sequelize.addModels([__dirname + '/**/*.model.ts']);
 
-  sequelize.addModels([happyThought]);
+  sequelize.addModels([happyThought,happyUser]);
   return sequelize;
 }
 

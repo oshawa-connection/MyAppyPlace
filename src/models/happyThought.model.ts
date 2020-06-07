@@ -59,7 +59,7 @@ export class happyThought extends Model<happyThought> {
 
     @AllowNull(false)
     @Length({max:255,min:10})
-    @Column
+    @Column({type:DataType.STRING})
     thoughtText : string;
 
     @CreatedAt
@@ -70,6 +70,7 @@ export class happyThought extends Model<happyThought> {
     @Column
     updatedAt?: Date;
 
-
+    
     
 }
+

@@ -1,0 +1,29 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type = "text/css" href="/style.css">
+
+    <title>New Happy Thought</title>
+</head>
+<body>
+    <div class="mainContainer">
+        <form action="/newUser" method="POST">
+            <label for="thoughtText">Your user name</label>
+            <input minlength='5' maxlength="50" required="required" name="userName" type="text"></input>        
+            
+            <br>
+            <label for="postedBy">password. Please don't use a real life password.</label>
+            <input minlength='5' maxlength="50" required="required" name="password" type="password"></input>  
+
+            <select name='profilePicture'>
+                <option value='otter'>Otter</option>
+                <option value='fox'>Fox</option>
+            </select>
+            <br>      
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

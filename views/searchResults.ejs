@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AppyThoughts</title>
     <link rel="stylesheet" type = "text/css" href="/style.css">
-  
+
 </head>
 
 <script type="text/javascript">
@@ -21,15 +21,8 @@
     </div>
 
     <div class="mainContainer">
-        <h1> What made you happy? 🙂</h1>
+        <h1> Search Results: <%=searchTerm %> </h1>
         
-        <form action="/newThought" method="POST">
-            <textarea placeholder="What's on your mind?" class="verticalTextArea inputClass" minlength='10' maxlength="255" required="required" name="thoughtText" type="text"></textarea>        
-            
-            <br>   
-            <input placeholder="Who are you?" minlength='3' maxlength="255" required="required" name="postedBy" type="text"></input>     
-            <button type="submit" id="myButton" class="float-left submit-button" >New Thought</button>
-        </form>
 
         
         <ul>

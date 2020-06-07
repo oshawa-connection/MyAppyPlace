@@ -46,13 +46,10 @@ export class happyUser extends Model<happyUser> {
     @Column({ type : DataType.UUID, primaryKey: true, unique: true  })
     userID?: string;
 
+    @Length({min:5,max:50})
     @AllowNull(false)
     @Column
     userName: string;
-
-    @IsEmail
-    @Column
-    email : string;
     
     @Length({min:5,max:50})
     @Column({ allowNull:false })
