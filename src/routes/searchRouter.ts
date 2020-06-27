@@ -8,8 +8,8 @@ import { sequelize } from '../server';
 export const searchRouter = Router();
 
 searchRouter.post('/displayResults', async (req:Request,res:Response)=>{
-    
-    console.log(`Search term is: ${req.body.searchTerm}`)
+    console.log("Router router.");
+    console.log(`Search term is: ${req.body.searchTerm}`);
 
     const searchResults = await sequelize.query(`
     SELECT *

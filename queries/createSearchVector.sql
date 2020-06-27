@@ -8,5 +8,7 @@ BEFORE INSERT OR UPDATE ON "happyThought"
 FOR EACH ROW 
 EXECUTE PROCEDURE tsvector_update_trigger("_search", 'pg_catalog.english', "thoughtText");
 
+CREATE INDEX searchvectorcol ON "happyThought" USING gin("_search");
+
 commit;
 

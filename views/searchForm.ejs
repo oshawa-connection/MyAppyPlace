@@ -1,0 +1,41 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AppyThoughts</title>
+    <link rel="stylesheet" type = "text/css" href="/style.css">
+  
+</head>
+
+<script type="text/javascript">
+    
+</script>
+<body>
+    <div id='fixed-profilePicture'>
+        <!-- <form action='/displayResults' method="POST"><input placeholder="Search" minlength='3' maxlength="255" required="required" name="searchTerm" type="text"></input></form> -->
+        <button onclick="location.href = '/';">HOME</button>
+        
+        <br>
+    
+    
+    </div>
+
+
+    <div class="mainContainer">
+        <h1> Find happiness 🧘‍♂️</h1>
+        
+        <form action="/search" method="POST">
+            <label>Search for:</label>
+            <input placeholder="Search term" minlength='3' maxlength="255" name="searchTerm" type="text"></input>
+            
+            <label>From:</label>
+            <input type="date" min="2020-01-01" max="2025-01-01" name="startDate"></input>
+
+            <label>To:</label>
+            <input type="date" min="2020-01-01" max="2025-01-01" name="endDate"></input>
+            
+            <button type="submit" id="myButton" class="float-left submit-button" >Avanti!</button>
+        </form>
+    </div>
+</body>
+</html>

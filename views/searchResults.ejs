@@ -13,7 +13,7 @@
 <body>
 
     <div id='fixed-profilePicture'>
-        <form action='/displayResults' method="POST"><input placeholder="Search" minlength='3' maxlength="255" required="required" name="searchTerm" type="text"></input></form>
+        <button onclick="location.href = '/search';">SEARCH AGAIN</button>
         <!-- <img src="/foxIcon.png" style="width:50px;height:50px">  James Fleming  <button>Logout</button> -->
         <br>
     
@@ -21,9 +21,17 @@
     </div>
 
     <div class="mainContainer">
-        <h1> Search Results: <%=searchTerm %> </h1>
+        <h1> Search Results </h1>
         
+        <% if (thoughts.length === 0) { %>
+            Hmm... no results. 
+            <br> 
+            Maybe the happiness you were looking for was inside you all along?
+            <br> 
+            Or maybe try changing your search and try again.
+        <% }; %>
 
+        
         
         <ul>
             <% thoughts.forEach(function(thought){ %>

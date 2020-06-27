@@ -20,6 +20,7 @@ const passportJWT = require("passport-jwt");
 const JWTStrategy   = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 import * as jwt from 'jsonwebtoken';
+import { start } from "repl";
 
 sequelize.sync({force:false});
 export const server = express();
@@ -195,19 +196,59 @@ server.post("/newThought",async (req:Request,res:Response) => {
   
 })
 
-server.post('/displayResults', async (req:Request,res:Response)=>{
-    
-  console.log(`Search term is: ${req.body.searchTerm}`)
+server.get('/search', async (req:Request,res:Response)=>{
+  res.render("searchForm.ejs");
+})
 
-  const searchResults = await sequelize.query(`
-  SELECT *
-  FROM "happyThought"
-  WHERE _search @@ plainto_tsquery('english', :searchTerm)
-  ORDER BY ts_rank("_search", to_tsquery('english', :searchTerm)) DESC
-  LIMIT 10;
-  `, {
+
+server.post('/search', async (req:Request,res:Response)=>{
+
+  let unParsedStartDate : string = req.body.startDate;
+  let unParsedEndDate : string = req.body.endDate;
+
+  let startDate: Date;
+  let endDate: Date;
+
+  if (unParsedEndDate == '') {
+    console.log("Going for default endDate")
+    endDate = new Date(Date.parse('2025-01-01'));
+  } else {
+    endDate = new Date(Date.parse(req.body.endDate));
+  }
+
+  if (unParsedStartDate == '') {
+    console.log("Going for default startdate")
+    startDate = new Date(Date.parse('2020-01-01'));
+    console.log(startDate);
+    
+  } else {
+    startDate = new Date(Date.parse(req.body.startDate));
+    
+  }
+
+  let searchQuery : string;
+
+  if (req.body.searchTerm == '') {
+    searchQuery = `
+    SELECT *
+    FROM "happyThought"
+    WHERE "createdAt" <= :endDate AND "createdAt" >= :startDate
+    ORDER BY "createdAt" DESC
+    LIMIT 20;`;
+  } else {
+    searchQuery = `
+    SELECT *
+    FROM "happyThought"
+    WHERE _search @@ plainto_tsquery('english', :searchTerm) 
+    AND "createdAt" < :endDate AND "createdAt" > :startDate
+    ORDER BY ts_rank("_search", to_tsquery('english', :searchTerm)) DESC
+    LIMIT 20;`;
+  }
+
+
+  const searchResults = await sequelize.query(searchQuery, {
   model: happyThought,
-  replacements: { searchTerm: req.body.searchTerm },
+  replacements: { searchTerm: req.body.searchTerm, endDate : endDate, startDate : startDate },
   });
 
   res.render("searchResults.ejs",{searchTerm:req.body.searchTerm,thoughts:searchResults})
