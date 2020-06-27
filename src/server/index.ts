@@ -203,6 +203,10 @@ server.get('/search', async (req:Request,res:Response)=>{
 
 server.post('/search', async (req:Request,res:Response)=>{
 
+  console.log(`Startdate: ${req.body.startDate}`);
+  console.log(`EndDate: ${req.body.endDate}`);
+  console.log(`searchTerm: ${req.body.searchTerm}`);
+
   let unParsedStartDate : string = req.body.startDate;
   let unParsedEndDate : string = req.body.endDate;
 
@@ -210,20 +214,16 @@ server.post('/search', async (req:Request,res:Response)=>{
   let endDate: Date;
 
   if (unParsedEndDate == '') {
-    console.log("Going for default endDate")
+    
     endDate = new Date(Date.parse('2025-01-01'));
   } else {
     endDate = new Date(Date.parse(req.body.endDate));
   }
 
   if (unParsedStartDate == '') {
-    console.log("Going for default startdate")
-    startDate = new Date(Date.parse('2020-01-01'));
-    console.log(startDate);
-    
+    startDate = new Date(Date.parse('2017-01-01'));
   } else {
     startDate = new Date(Date.parse(req.body.startDate));
-    
   }
 
   let searchQuery : string;
