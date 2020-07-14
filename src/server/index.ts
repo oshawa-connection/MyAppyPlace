@@ -1,5 +1,6 @@
 import express from "express"
 const helmet = require('helmet');
+var fs = require('fs');
 import { Request, Response, NextFunction } from "express";
 
 import { sequelizeFactory } from "./database";
@@ -192,6 +193,20 @@ server.post("/newThought",async (req:Request,res:Response) => {
     res
       .render(__dirname + '/../../../views/error.ejs');   
   })
+  
+  
+})
+
+server.get('/heartAscii', async (req:Request,res:Response)=>{
+  
+  let data : string;
+  let filename = __dirname +  '/../../../static/heartAscii.txt'
+  fs.readFile(filename, 'utf8', function(err:any, data:string) {
+    if (err) throw err;
+    console.log('OK: ' + filename);
+    console.log(data)
+    res.send(data);
+  });
   
   
 })
